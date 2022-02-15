@@ -1,0 +1,304 @@
+---
+title: "Homicides_Scandinavian"
+author: "Lea Skriver Hansen"
+date: "1/7/2022"
+output: 
+  html_document: 
+    toc: true 
+    toc_float: true
+  
+---
+*DISCLAIMER* 
+this is not my first script with this data set. The first script went wrong and turned grey so i could not do anything with it so i had to delete it all and start over and that you can see in this new script 
+
+to be able to knit the final results i put # with the codes that did not work 
+
+#Introduction
+this script is my final results including my thoughts and some of the mistakes i made throughout the process
+
+# Downloading the relevant packages for this project 
+```{r}
+library(tidyverse)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(readr)
+library(readxl)
+```
+the readxl package was downloaded because of issues with csv files (that will be explained later in the script)
+
+#downloading the data
+```{r}
+#data <- read_excel("Digitale_metoder_projekt/Homicide_Murder_Rate.xls")
+
+#Homicide_Murder_Rates <- read_excel("data/Homicide_Murder_Rates.xls")
+
+```
+
+from previus classes i have learned that csv files does not work for me so i tried putting xls file in by code, but that also did not work so i had to put in in without the code by importing the data 
+
+#put the data in to ggplot failed attempt 
+```{r}
+#head(Homicide_Murder_Rates)
+```
+
+```{r}
+#head(Homicide_Murder_Rates)
+```
+to check if the data was correct
+
+#first try
+```{r}
+#ggplot(data = Homicide_Murder_Rates) +
+ #geom_line(mapping = aes(x= Year,
+                         # y= Homicide_Murder_Rates$Per_100_k_DK, )) + 
+  #labs(x = "Year",
+       #y = "Number of Murder per 100k",
+       #title = "Murder Rate in Nothern Europe 1990-2018")
+```
+
+this was my first try to put it into ggplot but it said error
+```{r}
+#rlang::last_error()
+```
+
+trying to find out what the error was, but i could not figure it out 
+
+
+```{r}
+#second try 
+#New_Homicide_Murder_Rates <- rename(Homicide_Murder_Rates,murder_per_100k = 'Murder rate in Nothern Europe (per 100,009)')
+```
+after looking at some of the things we have learned in class so i tried some of it but it still did not work
+
+this was a try to see if i insertet one of the columns would work and it did but my goal is to get all the columns into a graphs so i can seperate them 
+```{r}
+#ggplot(data = Homicide_Murder_Rates) +
+  #geom_line(mapping = aes(x= Year,
+                          #y= Per_100_k_DK, )) + 
+ # labs(x = "Year",
+      # y = "Number of Murder per 100k",
+      # title = "Murder Rate in Nothern Europe 1990-2018")
+```
+```{r}
+#ggplot(data = Homicide_Murder_Rates) + 
+  #geom_line(mapping = aes(x = Year, 
+                          # y = Per_100_k_DK, 
+                          # color = Entity)) +
+  #facet_wrap(~ Entity, nrow = 2) +
+  #labs(x = "Year",
+       #y = "Number of Murder per 100k ",
+       #title = "Murder Rate in Nothern Europe 1990-2018")
+```
+trying to see if i could separate them but of course that did not work when i only had one country
+
+
+```{r}
+#Homicide_Murder_Rates <- rename(Homicide_Murder_Rates, number_of_Murders_per_100k=n)
+```
+again trying anything to see if it would work but it did not 
+
+#importing the new spreadsheet 
+then i realized it was the spreadsheet that did not work and not just the code 
+
+```{r}
+#Murder_rates_Notherneurope_1990-2018 <- read_csv("Murder_rates_northeurope_1990-2018.csv")
+
+#Murder_rates_Notherneurope_1990_2018 <- read_csv("Murder_rates_Notherneurope_1990-2018.csv")
+
+#getwd()
+
+#Murder_rates_Notherneurope_1990_2018 <- read_csv("Murder_rates_Notherneurope_1990-2018.csv")
+```
+again the code gave me trouble so i put the csv file without the code and by importing it 
+
+#Checking the data is good to work with
+```{r}
+#head(Murder_rates_Notherneurope_1990_2018)
+```
+
+#prep the data for ggplot 
+```{r}
+#ggplot(data = Murder_rates_Notherneurope_1990_2018) +
+ # geom_line(mapping = aes(x= Year,
+                         # y= Murder_per_100k, )) + 
+ # labs(x = "Year",
+      # y = "Number of Murder per 100k",
+      # title = "Murder Rate in Nothern Europe 1990-2018")
+```
+
+the data set in csv does not work, the data set is not separated probably so i have to use the xlsx file instead
+
+```{r}
+#Murder_rates_Notherneurope_1990_2018 <- read_excel("Homicides_Scandinavian/Murder_rates_Notherneurope_1990-2018.xlsx")
+
+#getwd()
+
+#Murder_rates_Notherneurope_1990_2018 <- read_excel("Murder_rates_Notherneurope_1990-2018.xlsx")
+```
+
+when trying to knit i had some issues because the data was importet and not by code so i tried using code
+```{r}
+Homicide_Murder_Rates <- read_excel("~/Desktop/Digitale metoder projekt /data/Homicide_Murder_Rates.xls")
+```
+
+the code could not show up because of the already existing one 
+```{r}
+rm(Murder_rates_Notherneurope_1990_2018)
+```
+
+
+after removing the importet data set i used code to insert the data and it was a success
+```{r}
+Murder_rates_Notherneurope_1990_2018 <- read_excel("Murder_rates_Notherneurope_1990-2018.xlsx")
+#View(Murder_rates_Notherneurope_1990_2018)
+```
+
+
+
+# putting the data into ggplot
+```{r}
+ggplot(data = Murder_rates_Notherneurope_1990_2018) +
+  geom_line(mapping = aes(x= Year,
+                          y= Murder_per_100k, )) + 
+  labs(x = "Year",
+       y = "Number of Murder per 100k",
+       title = "Murder Rate in Nothern Europe 1990-2018")
+```
+
+# seperate them by country ¨
+```{r}
+ggplot(data = Murder_rates_Notherneurope_1990_2018) + 
+  geom_line(mapping = aes(x = Year, 
+                           y = Murder_rates_Notherneurope_1990_2018$Murder_per_100k, 
+                           color = Country)) +
+  facet_wrap(~ Country, nrow = 3) +
+  labs(x = "Year",
+       y = "Murder per 100k",
+       title = "Murder Rate in Nothern Europe 1990-2018")
+```
+
+#change layout 
+```{r}
+ggplot(data = Murder_rates_Notherneurope_1990_2018) + 
+  geom_line(mapping = aes(x = Year, 
+                           y = Murder_rates_Notherneurope_1990_2018$Murder_per_100k, 
+                           color = Country)) +
+  facet_wrap(~ Country, nrow = 2) +
+  labs(x = "Year",
+       y = "Murder per 100k",
+       title = "Murder Rate in Nothern Europe 1990-2018")
+```
+#changing from geom_line to geom_bar
+#first try
+```{r}
+#Murder_rates_Notherneurope_1990_2018
+#ggplot( aes(x=Murder_per_100k)) + 
+  #geom_bar()
+```
+this did not work because there was missing a chunk of code for it to work 
+#second try
+```{r}
+Murder_rates_Notherneurope_1990_2018 %>% 
+  ggplot(aes(x = Murder_per_100k)) +
+  geom_bar()
+
+```
+realising i was missing something and when i added that to the code it worked 
+
+#seperating them by country 
+```{r}
+Murder_rates_Notherneurope_1990_2018 %>% 
+  ggplot(aes(x = Murder_per_100k)) +
+  geom_bar(aes(fill= Country))
+```
+```{r}
+Murder_rates_Notherneurope_1990_2018 %>% 
+  ggplot(aes(x = Murder_per_100k)) +
+  geom_bar(aes(fill= Country), position = "dodge")
+```
+```{r}
+Murder_rates_Notherneurope_1990_2018 %>% 
+  ggplot(aes(x = Murder_per_100k, y = Year, fill= Country)) + 
+  geom_bar(stat = "identity", position = "dodge")
+```
+her i was a bit confused because it did not look rigth 
+```{r}
+Murder_rates_Notherneurope_1990_2018 %>% 
+  ggplot(aes(x = Year, y = Murder_per_100k, fill= Country)) + 
+  geom_bar(stat = "identity", position = "dodge")
+```
+then i realised that i had to switch the x and y and then it looked right 
+
+#seperating them so each country have its own graph
+```{r}
+Murder_rates_Notherneurope_1990_2018 %>% 
+  ggplot(aes(x = Year, y = Murder_per_100k, fill= Country)) + 
+  geom_bar(stat = "identity", position = "dodge") +
+  labs( title = "Murder rates 1990-2018", 
+        x= "Year",
+        y= "Murder per 100k populations") +
+  facet_wrap(~ Country)
+```
+
+#find max in each country 
+#Denmark 
+```{r}
+Per_100_k_DK <-c(1.01,1.24,0.98,1.09,1.31,0.85,0.84,0.82,0.76,0.85,0.98,0.71,0.53,0.98,0.8,1.21,0.89,0.97,1.09,0.98,0.92,1.67,1.29,1.13,1.44,1.37,1.2,1.32,0.8)
+
+class(Per_100_k_DK)
+
+max(Per_100_k_DK)
+```
+
+#Norway 
+```{r}
+Per_100_k_NO<-c(0.47,0.53,0.51,0.46,0.56,0.91,0.54,2.24,0.59,0.6,0.71,0.64,0.71,0.71,0.78,1.12,1.01,0.82,1.07,0.74,0.85,0.86,0.98,0.96,0.76,0.88,1.07,1.17,1.11)
+
+class(Per_100_k_NO)
+
+max(Per_100_k_NO)
+```
+
+#Sweden 
+```{r}
+Per_100_k_SW<-c(1.08,1.14,1.08,1.15,0.9,0.9,0.71,0.86,0.97,1,0.89,1.21,1,0.92,1.19,0.95,1.13,0.98,1.08,1.14,1.04,0.98,1.12,0.98,1.14,1.23,1.31,1.33,1.11)
+
+class(Per_100_k_SW)
+
+max(Per_100_k_SW)
+```
+
+
+```{r}
+max(Per_100_k_SW)
+```
+
+#Finland
+```{r}
+Per_100_k_FI<-c(1.63,1.25,1.35,1.5,1.61,1.64,1.63,2.04,2.22,2.25,2.5,2.44,2.25,2.26,2.82,1.97,2.53,3,2.85,2.76,2.19,2.7,2.98,2.85,2.88,2.56,3.9,3.07,3.04)
+
+class(Per_100_k_FI)
+
+```
+```{r}
+max(Per_100_k_FI)
+```
+
+#Iceland 
+```{r}
+Per_100_k_IC<-c(0.89,0.9,0.3,0.91,0.61,0.31,0.31,0.93,0.62,0.32,0,1.02,1.03,0,1.4,0.35,1.78,0.72,0,0.73,0.37,0,0,0,0,0,0)
+
+class(Per_100_k_IC)
+```
+```{r}
+max(Per_100_k_IC)
+```
+```{r}
+max(Per_100_k_IC)
+```
+```{r}
+max(Per_100_k_IC)
+```
+i had a bit of trouble to find the right max with the data form Iceland but there was a mistake in c() so when i fixed that i got the right one
+
